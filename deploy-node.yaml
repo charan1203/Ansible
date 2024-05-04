@@ -1,0 +1,28 @@
+---
+- name: install node
+  hosts: 20.84.111.222
+  tasks:
+    - name: update apt repo and cache
+      apt: 
+        update_cache : yes 
+        force_apt_get : yes 
+        cache_valid_time : 3600
+    - name: install nodejs
+      apt: 
+        name: nodejs
+        state: present
+      become: yes
+
+
+- name: deploying nodejs app
+  hosts: 20.84.111.222
+  tasks: 
+    - name: copy nodejs file to server
+      copy:
+        src: /Users/charanreddy/Projects/Ansible Node/nginx_package/nginx-0.1.0.tar.gz
+        dest: /home/charanadmin/nginx-0.1.0.tar.gz 
+    - name: unpack the nodejs file
+      unarchive:
+        src: /home/charanadmin/nginx-0.1.0.tar.gz
+        dest: /home/charanadmin/
+        remote_src: yes
